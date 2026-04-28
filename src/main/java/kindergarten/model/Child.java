@@ -3,6 +3,7 @@ package main.java.kindergarten.model;
 import java.util.Objects;
 
 public class Child {
+
     private Long id;
     private String fullName;
     private boolean male;
@@ -12,17 +13,12 @@ public class Child {
     public Child() {
     }
 
-    public Child(String fullName, boolean male, int age) {
-        this.fullName = fullName;
-        this.male = male;
-        this.age = age;
-    }
-
-    public Child(Long id, String fullName, boolean male, int age) {
-        this.id = id;
-        this.fullName = fullName;
-        this.male = male;
-        this.age = age;
+    private Child(Builder builder) {
+        this.id = builder.id;
+        this.fullName = builder.fullName;
+        this.male = builder.male;
+        this.age = builder.age;
+        this.groupId = builder.groupId;
     }
 
     public Long getId() {
@@ -81,12 +77,45 @@ public class Child {
 
     @Override
     public String toString() {
-        return "Child{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", male=" + male +
-                ", age=" + age +
-                ", groupId=" + groupId +
-                '}';
+        return "Child{id=" + id + ", fullName='" + fullName + "', male=" + male
+                + ", age=" + age + ", groupId=" + groupId + '}';
+    }
+
+    public static class Builder {
+
+        private Long id;
+        private String fullName;
+        private boolean male;
+        private int age;
+        private Long groupId;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder fullName(String fullName) {
+            this.fullName = fullName;
+            return this;
+        }
+
+        public Builder male(boolean male) {
+            this.male = male;
+            return this;
+        }
+
+        public Builder age(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public Builder groupId(Long groupId) {
+            this.groupId = groupId;
+            return this;
+        }
+
+        public Child build() {
+            return new Child(this);
+        }
     }
 }

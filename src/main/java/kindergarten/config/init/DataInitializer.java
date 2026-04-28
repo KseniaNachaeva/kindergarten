@@ -6,60 +6,36 @@ import main.java.kindergarten.repository.ChildRepository;
 import main.java.kindergarten.repository.GroupRepository;
 
 public class DataInitializer {
-    
+
     private final GroupRepository groupRepository;
     private final ChildRepository childRepository;
-    
+
     public DataInitializer(GroupRepository groupRepository, ChildRepository childRepository) {
         this.groupRepository = groupRepository;
         this.childRepository = childRepository;
     }
-    public void init() {
 
+    public void init() {
         if (!groupRepository.findAll().isEmpty()) {
             return;
         }
-
 
         Group group1 = groupRepository.save(new Group("Солнышко", 1));
         Group group2 = groupRepository.save(new Group("Ромашка", 2));
         Group group3 = groupRepository.save(new Group("Звёздочка", 3));
 
+        childRepository.save(new Child.Builder().fullName("Иванов Иван").male(true).age(5).groupId(group1.getId()).build());
+        childRepository.save(new Child.Builder().fullName("Петрова Анна").male(false).age(4).groupId(group1.getId()).build());
+        childRepository.save(new Child.Builder().fullName("Сидоров Максим").male(true).age(6).groupId(group1.getId()).build());
+        childRepository.save(new Child.Builder().fullName("Смирнова Елена").male(false).age(5).groupId(group2.getId()).build());
+        childRepository.save(new Child.Builder().fullName("Козлов Дмитрий").male(true).age(4).groupId(group2.getId()).build());
+        childRepository.save(new Child.Builder().fullName("Морозова Ольга").male(false).age(6).groupId(group3.getId()).build());
+        childRepository.save(new Child.Builder().fullName("Волков Сергей").male(true).age(5).groupId(group3.getId()).build());
+        childRepository.save(new Child.Builder().fullName("Лебедева Мария").male(false).age(4).groupId(group3.getId()).build());
+        childRepository.save(new Child.Builder().fullName("Новиков Артём").male(true).age(3).build());
 
-        Child child1 = new Child("Иванов Иван", true, 5);
-        child1.setGroupId(group1.getId());
-        childRepository.save(child1);
-
-        Child child2 = new Child("Петрова Анна", false, 4);
-        child2.setGroupId(group1.getId());
-        childRepository.save(child2);
-
-        Child child3 = new Child("Сидоров Максим", true, 6);
-        child3.setGroupId(group1.getId());
-        childRepository.save(child3);
-
-        Child child4 = new Child("Смирнова Елена", false, 5);
-        child4.setGroupId(group2.getId());
-        childRepository.save(child4);
-
-        Child child5 = new Child("Козлов Дмитрий", true, 4);
-        child5.setGroupId(group2.getId());
-        childRepository.save(child5);
-
-        Child child6 = new Child("Морозова Ольга", false, 6);
-        child6.setGroupId(group3.getId());
-        childRepository.save(child6);
-
-        Child child7 = new Child("Волков Сергей", true, 5);
-        child7.setGroupId(group3.getId());
-        childRepository.save(child7);
-
-        Child child8 = new Child("Лебедева Мария", false, 4);
-        child8.setGroupId(group3.getId());
-        childRepository.save(child8);
-
-        childRepository.save(new Child("Новиков Артём", true, 3));
-
-        System.out.println("У нас всего: 3 группы, 9 детей");
+        int groupCount = groupRepository.findAll().size();
+        int childCount = childRepository.findAll().size();
+        System.out.println("Инициализировано: " + groupCount + " групп, " + childCount + " детей");
     }
 }

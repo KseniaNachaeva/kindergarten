@@ -1,33 +1,32 @@
 package main.java.kindergarten.config;
 
+import main.java.kindergarten.config.factory.RepositoryFactory;
+import main.java.kindergarten.config.factory.ServiceFactory;
 import main.java.kindergarten.config.init.DataInitializer;
 import main.java.kindergarten.repository.ChildRepository;
 import main.java.kindergarten.repository.GroupRepository;
-import main.java.kindergarten.repository.inmemory.InMemoryChildRepository;
-import main.java.kindergarten.repository.inmemory.InMemoryGroupRepository;
-import main.java.kindergarten.service.KindergartenService;
-import main.java.kindergarten.service.impl.KindergartenServiceImpl;
+import main.java.kindergarten.service.ChildService;
+import main.java.kindergarten.service.GroupService;
 import main.java.kindergarten.ui.ConsoleApplication;
 
 public class AppConfig {
-    
-    private final KindergartenService service;
-    
-    public AppConfig() {
 
-        GroupRepository groupRepository = new InMemoryGroupRepository();
-        ChildRepository childRepository = new InMemoryChildRepository();
-        
-        this.service = new KindergartenServiceImpl(groupRepository, childRepository);
+    private final GroupService groupService;
+    private final ChildService childService;
+
+    public AppConfig() {
+        RepositoryFactory repositoryFactory = new RepositoryFactory();
+        GroupRepository groupRepository = repositoryFactory.createGroupRepository();
+        ChildRepository childRepository = repositoryFactory.createChildRepository();
+
+        ServiceFactory serviceFactory = new ServiceFactory();
+        this.groupService = serviceFactory.createGroupService(groupRepository, childRepository);
+        this.childService = serviceFactory.createChildService(childRepository, groupRepository);
 
         new DataInitializer(groupRepository, childRepository).init();
     }
-    
-    public KindergartenService getService() {
-        return service;
-    }
-    
+
     public ConsoleApplication createConsoleApplication() {
-        return new ConsoleApplication(service);
+        return new ConsoleApplication(groupService, childService);
     }
 }

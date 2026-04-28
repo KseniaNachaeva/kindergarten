@@ -6,7 +6,7 @@ import main.java.kindergarten.model.Group;
 import java.util.List;
 import java.util.Map;
 
-public interface KindergartenService {
+public interface GroupService {
 
     Group createGroup(String name, int number);
 
@@ -17,18 +17,6 @@ public interface KindergartenService {
     Group getGroupById(Long id);
 
     List<Group> getAllGroups();
-
-    Child createChild(String fullName, boolean male, int age, Long groupId);
-
-    Child updateChild(Long id, String fullName, boolean male, int age, Long groupId);
-
-    void deleteChild(Long id);
-
-    Child getChildById(Long id);
-
-    List<Child> getAllChildren();
-
-    List<Child> getChildrenByGroupId(Long groupId);
 
     Map<Group, List<Child>> getGroupsInfo();
 }
