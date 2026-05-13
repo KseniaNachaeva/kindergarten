@@ -1,5 +1,6 @@
 package main.java.kindergarten.config;
 
+import main.java.kindergarten.repository.jdbc.ConnectionManager;
 import main.java.kindergarten.config.factory.RepositoryFactory;
 import main.java.kindergarten.config.factory.ServiceFactory;
 import main.java.kindergarten.config.init.DataInitializer;
@@ -15,7 +16,10 @@ public class AppConfig {
     private final ChildService childService;
 
     public AppConfig() {
-        RepositoryFactory repositoryFactory = new RepositoryFactory();
+        ConnectionManager connectionManager = new ConnectionManager();
+        connectionManager.initSchema();
+
+        RepositoryFactory repositoryFactory = new RepositoryFactory(connectionManager);
         GroupRepository groupRepository = repositoryFactory.createGroupRepository();
         ChildRepository childRepository = repositoryFactory.createChildRepository();
 
